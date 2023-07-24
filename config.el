@@ -198,6 +198,9 @@
 ;;(add-hook 'find-file-hook #'ebuild-repo-mode-maybe-enable)
 ;;(modify-coding-system-alist 'file "\\.\\(ebuild\\|eclass\\)\\'" 'utf-8)
 
+;; Dirvish over Dired globally
+(dirvish-override-dired-mode)
+
 ;; https://emacs-china.org/t/emacs-emacs-gc/24757
 (require 'emacs-gc-stats)
 ;; Optionally reset Emacs GC settings to default values (recommended)
