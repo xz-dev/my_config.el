@@ -28,14 +28,14 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "FiraCode Nerd Font"))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono"))
+(setq doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono"))
 ;; “中”、“言”字测试
 ;; 连体字测试
 ;; "!=" "==" "++" "--" "&&" "||" "/*" "*/" "=>" "<-" "<=" ">=" "<<" ">>" "|||" "::" "===" "=/=" "=!=" "&&&" "+++" "-->" "<<<"
-;;(setq doom-unicode-font (font-spec :family "LXGW WenKai Screen"))
 (defun my-cjk-font()
   (dolist (charset '(kana han cjk-misc symbol bopomofo))
-    (set-fontset-font t charset (font-spec :family "LXGW WenKai Screen"))))
+    (set-fontset-font t charset (font-spec :family "LXGW WenKai Mono"))))
 (add-hook 'after-setting-font-hook #'my-cjk-font)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -86,18 +86,18 @@
 ;; they are implemented.
 
 
-(use-package! telega
-  :init
-  (setq telega-use-images t)
-  :config
-  (setq telega-use-docker "podman"
-        telega-docker-run-arguments "--userns=keep-id")
-  (setq telega-server-libs-prefix "/usr/")
-  (setq telega-animation-play-inline t)
-  (setq telega-emoji-use-images t)
-
-  (setq telega-notifications-mode 1)
-  (setq telega-autoplay-mode 1))
+;;(use-package! telega
+;;  :init
+;;  (setq telega-use-images t)
+;;  :config
+;;  (setq telega-use-docker "podman"
+;;        telega-docker-run-arguments "--userns=keep-id")
+;;  (setq telega-server-libs-prefix "/usr/")
+;;  (setq telega-animation-play-inline t)
+;;  (setq telega-emoji-use-images t)
+;;
+;;  (setq telega-notifications-mode 1)
+;;  (setq telega-autoplay-mode 1))
 
 (cl-defun pyvenv-autoload ()
   "auto activate venv directory if exists"
@@ -199,7 +199,7 @@
 ;;(modify-coding-system-alist 'file "\\.\\(ebuild\\|eclass\\)\\'" 'utf-8)
 
 ;; Dirvish over Dired globally
-(dirvish-override-dired-mode)
+;;(dirvish-override-dired-mode)
 
 ;; https://emacs-china.org/t/emacs-emacs-gc/24757
 (require 'emacs-gc-stats)
