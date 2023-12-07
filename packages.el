@@ -61,4 +61,5 @@
 (package! dirvish)
 (package! cns
   :recipe (:host github :repo "kanglmf/emacs-chinese-word-segmentation"
-           :pre-build ("env" "CXX=clang++" "make")))
+           :pre-build ("env" "CXX=clang++" "make")
+           :files ("*.el" "cnws" "cppjieba/dict")))

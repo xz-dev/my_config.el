@@ -184,10 +184,13 @@
   :load-path "/usr/share/emacs/site-lisp")
 
 ;; 结巴分词
-;;(setq cns-path "~/.config/emacs/.local/straight/repos/emacs-chinese-word-segmentation")
-;;(use-package! cns
-;;  :config
-;;  (setq cns-prog (concat cns-path "/cnws")
-;;        cns-dict-directory (concat cns-path "/cppjieba/dict"))
-;;  :hook
-;;  (find-file 'cns-auto-enable))
+(use-package! cns
+  :commands (cns-mode global-cns-mode cns-auto-enable)
+  :config
+  (defvar cns-packages-path (expand-file-name "cns" (expand-file-name straight-build-dir (expand-file-name "straight" straight-base-dir))))
+  (setq cns-prog (if (file-executable-p (expand-file-name "cnws" cns-packages-path))
+                     (expand-file-name "cnws" cns-packages-path)
+                   (expand-file-name "cnws.exe" cns-packages-path))
+        cns-dict-directory (expand-file-name "dict" cns-packages-path))
+  :hook
+  (find-file . cns-auto-enable))
