@@ -15,7 +15,7 @@
 ;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
 ;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
@@ -29,7 +29,6 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 (setq doom-font (font-spec :family "Iosevka Nerd Font Mono"))
-(setq doom-unicode-font (font-spec :family "Iosevka Nerd Font Mono"))
 ;; “中”、“言”字测试
 ;; 连体字测试
 ;; "!=" "==" "++" "--" "&&" "||" "/*" "*/" "=>" "<-" "<=" ">=" "<<" ">>" "|||" "::" "===" "=/=" "=!=" "&&&" "+++" "-->" "<<<"
@@ -86,18 +85,21 @@
 ;; they are implemented.
 
 
-;;(use-package! telega
-;;  :init
-;;  (setq telega-use-images t)
-;;  :config
-;;  (setq telega-use-docker "podman"
-;;        telega-docker-run-arguments "--userns=keep-id")
-;;  (setq telega-server-libs-prefix "/usr/")
-;;  (setq telega-animation-play-inline t)
-;;  (setq telega-emoji-use-images t)
-;;
-;;  (setq telega-notifications-mode 1)
-;;  (setq telega-autoplay-mode 1))
+(use-package! telega
+  :init
+  (setq telega-use-images t)
+  :config
+  (setq telega-use-docker "podman"
+        telega-docker-run-arguments "--userns=keep-id")
+  (setq telega-server-libs-prefix "/usr/")
+  (setq telega-animation-play-inline t)
+  (setq telega-emoji-use-images t)
+
+  (setq telega-notifications-mode 1)
+  (setq telega-autoplay-mode 1)
+  (setq telega-accounts (list
+                         (list "inkflaw" 'telega-database-dir telega-database-dir)
+                         (list "inkflawing" 'telega-database-dir (expand-file-name "inkflawing" telega-database-dir)))))
 
 (cl-defun pyvenv-autoload ()
   "auto activate venv directory if exists"
@@ -138,7 +140,9 @@
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion-by-word)
               ("TAB" . 'copilot-accept-completion-by-word)
-              ("C-e" . 'copilot-accept-completion)))
+              ("C-e" . 'copilot-accept-completion)
+              ("A-." . 'copilot-next-completion)
+              ("A-," . 'copilot-previous-completion)))
 ;; prevent overlay conflict (company +childframe) at init.el
 
 ;; treemacs
@@ -146,8 +150,8 @@
   :init
   (treemacs-tag-follow-mode)
   :config
-  (setq treemacs-read-string-input 'from-minibuffer)
-  (setq treemacs-width-is-initially-locked nil))
+  (setq treemacs-read-string-input 'from-minibuffer
+        treemacs-width-is-initially-locked nil))
 
 ;; Syntax Highlighting
 (global-tree-sitter-mode)
@@ -156,7 +160,7 @@
 ;; code format
 (defun format-buffer-shot ()
   (interactive)
-  (format-all-buffer "")
+  (format-all-buffer)
   (when (derived-mode-p 'python-mode)
     (py-isort-buffer)))
 
@@ -167,46 +171,23 @@
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 (setq feature-step-search-path "features/steps/**")
 
-;; ebuild-mode
-;;(autoload 'ebuild-mode "ebuild-mode"
-;;	    "Major mode for Portage .ebuild and .eclass files." t)
-;;(autoload 'ebuild-repo-mode "ebuild-mode"
-;;	    "Minor mode for files in an ebuild repository." t)
-;;(autoload 'ebuild-repo-mode-maybe-enable "ebuild-mode")
-;;(autoload 'devbook-mode "devbook-mode"
-;;	    "Major mode for editing the Gentoo Devmanual." t)
-;;(autoload 'gentoo-newsitem-mode "gentoo-newsitem-mode"
-;;	    "Major mode for Gentoo GLEP 42 news items." t)
-;;(autoload 'glep-mode "glep-mode"
-;;	    "Major mode for Gentoo Linux Enhancement Proposals." t)
-;;(add-to-list 'auto-mode-alist '("\\.\\(ebuild\\|eclass\\)\\'" . ebuild-mode))
-;;(add-to-list 'auto-mode-alist '("*.ebuild" . ebuild-mode))
-;;(add-to-list 'auto-mode-alist '("/devmanual.*\\.xml\\'" . devbook-mode))
-;;(add-to-list 'auto-mode-alist
-;;	            '("/[0-9]\\{4\\}-[01][0-9]-[0-3][0-9]-.+\\.[a-z]\\{2\\}\\.txt\\'"
-;;		                     . gentoo-newsitem-mode))
-;;(add-to-list 'auto-mode-alist '("/glep.*\\.rst\\'" . glep-mode))
-;;(add-to-list 'auto-mode-alist
-;;	            '("/\\(package\\.\\(mask\\|unmask\\|use\\|env\
-;;					 \\|license\\|properties\\|accept_\\(keywords\\|restrict\\)\\)\
-;;		    \\|\\(package\\.\\)?use.\\(stable\\.\\)?\\(force\\|mask\\)\\)\\'"
-;;		                     . conf-space-mode))
-;;(add-to-list 'auto-mode-alist
-;;	            '("/make\\.\\(conf\\|}defaults\\)\\'" . conf-unix-mode))
-;;(add-to-list 'interpreter-mode-alist '("openrc-run" . sh-mode))
-;;(add-to-list 'interpreter-mode-alist '("runscript" . sh-mode))
-;;(add-hook 'find-file-hook #'ebuild-repo-mode-maybe-enable)
-;;(modify-coding-system-alist 'file "\\.\\(ebuild\\|eclass\\)\\'" 'utf-8)
+;; ebuild-run-mode
+(eval-after-load 'ebuild-mode `(setq ebuild-log-buffer-mode 'ebuild-run-mode))
 
 ;; Dirvish over Dired globally
-;;(dirvish-override-dired-mode)
+(use-package! dirvish
+  :init
+  (dirvish-override-dired-mode))
 
-;; https://emacs-china.org/t/emacs-emacs-gc/24757
-(require 'emacs-gc-stats)
-;; Optionally reset Emacs GC settings to default values (recommended)
-(setq emacs-gc-stats-gc-defaults 'emacs-defaults)
-;; Optionally set reminder to upload the stats after 3 weeks.
-(setq emacs-gc-stats-remind t) ; can also be a number of days
-;; Optionally disable logging the command names
-;; (setq emacs-gc-stats-inhibit-command-name-logging t)
-(emacs-gc-stats-mode +1)
+;; ebuild-mode
+(use-package! site-gentoo
+  :load-path "/usr/share/emacs/site-lisp")
+
+;; 结巴分词
+;;(setq cns-path "~/.config/emacs/.local/straight/repos/emacs-chinese-word-segmentation")
+;;(use-package! cns
+;;  :config
+;;  (setq cns-prog (concat cns-path "/cnws")
+;;        cns-dict-directory (concat cns-path "/cppjieba/dict"))
+;;  :hook
+;;  (find-file 'cns-auto-enable))

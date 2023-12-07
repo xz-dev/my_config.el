@@ -31,13 +31,16 @@
        ;;deft              ; notational velocity for Emacs
        doom                ; what makes DOOM look the way it does
        doom-dashboard      ; a nifty splash screen for Emacs
-       ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       (emoji +unicode)    ; 🙂
+       doom-quit           ; DOOM quit-message prompts when you quit Emacs
+       (emoji              ; 🙂
+         +unicode
+         +ascii
+         +github)
        hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
-       (ligatures          ; ligatures and symbols to make your code pretty again
-        +extra)
+       (ligatures          ; ligatures and symbols to make your code pretty again 
+         +extra)
        ;;minimap           ; show a map of the code on the side
        modeline            ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
@@ -96,11 +99,11 @@
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
        lookup              ; navigate your code and its documentation
-       ;;lsp               ; M-x vscode
+       lsp                 ; M-x vscode
        magit               ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
-       ;;pdf               ; pdf enhancements
+       pdf                 ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
@@ -123,9 +126,9 @@
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
        ;;data              ; config/data formats
-       (dart               ; paint ui and not much else
-        +flutter
-        +lsp)
+       ;;(dart             ; paint ui and not much else
+       ;; +flutter
+       ;; +lsp)
        ;;dhall
        ;;elixir            ; erlang done right
        ;;elm               ; care for a cup of TEA?
@@ -148,7 +151,9 @@
        ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
-       ;;latex             ; writing papers in Emacs has never been so fun
+       (latex              ; writing papers in Emacs has never been so fun
+         +lsp
+         +latexmk)
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        ;;lua               ; one-based indices? one-based indices
@@ -156,13 +161,13 @@
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       ;;org                 ; organize your plain life in plain text
+       ;;org               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        (python             ; beautiful is better than ugly
         +lsp
-        +pyls
+        +pyright
         +pyenv)
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
@@ -179,7 +184,7 @@
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
-       ;;yaml              ; JSON, but readable
+       yaml                ; JSON, but readable
        ;;zig               ; C, but simpler
 
        :email
@@ -212,10 +217,7 @@
 (setq desktop-path '("~/.emacs.d/" "."))
 
 ; https://github.com/doomemacs/doomemacs/issues/5682
-(defvar native-comp-deferred-compilation-deny-list nil)
+;;(defvar native-comp-deferred-compilation-deny-list nil)
 
 ;; mouse support terminal
 (xterm-mouse-mode 1)
-
-;; ebuild-mode
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ebuild-mode")

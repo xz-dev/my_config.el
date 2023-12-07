@@ -59,4 +59,6 @@
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 (package! feature-mode)
 (package! dirvish)
-(package! emacs-gc-stats)
+(package! cns
+  :recipe (:host github :repo "kanglmf/emacs-chinese-word-segmentation"
+           :pre-build ("env" "CXX=clang++" "make")))
