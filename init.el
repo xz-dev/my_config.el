@@ -33,14 +33,14 @@
        doom-dashboard      ; a nifty splash screen for Emacs
        doom-quit           ; DOOM quit-message prompts when you quit Emacs
        (emoji              ; 🙂
-         +unicode
-         +ascii
-         +github)
+        +unicode
+        +ascii
+        +github)
        hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
-       (ligatures          ; ligatures and symbols to make your code pretty again 
-         +extra)
+       (ligatures          ; ligatures and symbols to make your code pretty again
+        +extra)
        ;;minimap           ; show a map of the code on the side
        modeline            ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
@@ -152,8 +152,8 @@
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        (latex              ; writing papers in Emacs has never been so fun
-         +lsp
-         +latexmk)
+        +lsp
+        +latexmk)
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        ;;lua               ; one-based indices? one-based indices
@@ -216,7 +216,7 @@
 (setq desktop-load-locked-desktop t)
 (setq desktop-path '("~/.emacs.d/" "."))
 
-; https://github.com/doomemacs/doomemacs/issues/5682
+                                        ; https://github.com/doomemacs/doomemacs/issues/5682
 ;;(defvar native-comp-deferred-compilation-deny-list nil)
 
 ;; mouse support terminal

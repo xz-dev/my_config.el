@@ -181,6 +181,8 @@
 
 ;; ebuild-mode
 (use-package! site-gentoo
+  :if (locate-dominating-file user-emacs-directory "site-gentoo.el")
+  :ensure nil
   :load-path "/usr/share/emacs/site-lisp")
 
 ;; 结巴分词
@@ -192,5 +194,10 @@
                      (expand-file-name "cnws" cns-packages-path)
                    (expand-file-name "cnws.exe" cns-packages-path))
         cns-dict-directory (expand-file-name "dict" cns-packages-path))
+  (cond
+   ((eq system-type 'windows-nt)
+    (use-package! site-gentoo
+      :load-path "/usr/share/emacs/site-lisp")
+    (setq cns-cmdproxy-shell-path "wsl.exe bash")))
   :hook
   (find-file . cns-auto-enable))
