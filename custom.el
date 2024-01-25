@@ -16,3 +16,4 @@
  ;; If there is more than one, they won't work right.
  '(ts-fold-replacement-face ((t (:foreground unspecified :box nil :inherit font-lock-comment-face :weight light)))))
 (put 'customize-group 'disabled nil)
+(put 'customize-option 'disabled nil)
