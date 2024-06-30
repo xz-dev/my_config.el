@@ -49,6 +49,10 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;; https://github.com/doomemacs/doomemacs/issues/7311#issuecomment-1947790536
+;; This should override the default behavior:
+(package! protobuf-mode :recipe (:nonrecursive t))
+
 (package! format-all)
 (package! telega)
 (package! ement)
@@ -65,3 +69,5 @@
                           '("wsl.exe" "env" "CXX=clang++" "make")
                         '("env" "CXX=clang++" "make"))
            :files ("*.el" "cnws" "cnws.exe" "cppjieba/dict")))
+(package! haki-theme)
+(package! gptel)

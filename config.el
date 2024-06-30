@@ -154,8 +154,8 @@
         treemacs-width-is-initially-locked nil))
 
 ;; Syntax Highlighting
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+;;(global-tree-sitter-mode)
+;;(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 ;; code format
 (defun format-buffer-shot ()
@@ -201,3 +201,42 @@
     (setq cns-cmdproxy-shell-path "wsl.exe bash")))
   :hook
   (find-file . cns-auto-enable))
+
+;; high contrast theme
+(use-package! haki-theme
+  :demand t
+  ;;:custom-face
+  ;;(haki-region ((t (:background "#2e8b57" :foreground "#ffffff"))))
+  ;;(haki-highlight ((t (:background "#fafad2" :foreground "#000000"))))
+  :config
+  ;;(setq
+  ;; ;; If you skip setting this, it will use 'default' font.
+  ;; haki-heading-font "Comic Mono"
+  ;; haki-sans-font "Iosevka Comfy Motion"
+  ;; haki-title-font "Impress BT"
+  ;; haki-link-font "VictorMono Nerd Font" ;; or Maple Mono looks good
+  ;; haki-code-font "Maple Mono") ;; inline code/verbatim (org,markdown..)
+
+  ;; For meow/evil users (change border of mode-line according to modal states)
+  (add-hook 'post-command-hook #'haki-modal-mode-line)
+
+  (load-theme 'haki t))
+
+;; gptel
+(use-package! gptel
+  :config
+  ;; OpenRouter offers an OpenAI compatible API
+  (setq!
+   gptel-backend
+   (gptel-make-openai "OpenRouter"
+                   :host "openrouter.ai"
+                   :endpoint "/api/v1/chat/completions"
+                   :stream t
+                   :models '("anthropic/claude-3.5-sonnet"
+                             "anthropic/claude-3.5-sonnet:beta"
+                             "anthropic/claude-3-haiku"
+                             "meta-llama/llama-3-70b-instruct"
+                             "gryphe/mythomax-l2-13b"
+                             "openai/gpt-4o"
+                             "google/gemini-pro-1.5"
+                             "microsoft/wizardlm-2-8x22b"))))
