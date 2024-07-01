@@ -229,14 +229,16 @@
   (setq!
    gptel-backend
    (gptel-make-openai "OpenRouter"
-                   :host "openrouter.ai"
-                   :endpoint "/api/v1/chat/completions"
-                   :stream t
-                   :models '("anthropic/claude-3.5-sonnet"
-                             "anthropic/claude-3.5-sonnet:beta"
-                             "anthropic/claude-3-haiku"
-                             "meta-llama/llama-3-70b-instruct"
-                             "gryphe/mythomax-l2-13b"
-                             "openai/gpt-4o"
-                             "google/gemini-pro-1.5"
-                             "microsoft/wizardlm-2-8x22b"))))
+     :host "openrouter.ai"
+     :endpoint "/api/v1/chat/completions"
+     :stream t
+     :key #'gptel-api-key
+     :models '("google/gemma-2-9b-it:free"
+               "anthropic/claude-3.5-sonnet"
+               "anthropic/claude-3.5-sonnet:beta"
+               "anthropic/claude-3-haiku"
+               "meta-llama/llama-3-70b-instruct"
+               "gryphe/mythomax-l2-13b"
+               "openai/gpt-4o"
+               "google/gemini-pro-1.5"
+               "microsoft/wizardlm-2-8x22b"))))
