@@ -53,15 +53,15 @@
 ;; This should override the default behavior:
 (package! protobuf-mode :recipe (:nonrecursive t))
 
-(package! format-all)
+;(package! format-all)
 (package! telega)
 (package! ement)
-(package! protobuf-mode)
-(package! tree-sitter)
-(package! tree-sitter-langs)
+;(package! protobuf-mode)
+;(package! tree-sitter)
+;(package! tree-sitter-langs)
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
-(package! feature-mode)
+;(package! feature-mode)
 (package! dirvish)
 (package! cns
   :recipe (:host github :repo "kanglmf/emacs-chinese-word-segmentation"
@@ -69,5 +69,5 @@
                           '("wsl.exe" "env" "CXX=clang++" "make")
                         '("env" "CXX=clang++" "make"))
            :files ("*.el" "cnws" "cnws.exe" "cppjieba/dict")))
-(package! haki-theme)
+;;(package! haki-theme)
 (package! gptel)

@@ -158,18 +158,18 @@
 ;;(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 ;; code format
-(defun format-buffer-shot ()
-  (interactive)
-  (format-all-buffer)
-  (when (derived-mode-p 'python-mode)
-    (py-isort-buffer)))
-
-(global-set-key (kbd "C-l") 'format-buffer-shot)
+;(defun format-buffer-shot ()
+;  (interactive)
+;  (format-all-buffer)
+;  (when (derived-mode-p 'python-mode)
+;    (py-isort-buffer)))
+;
+;(global-set-key (kbd "C-l") 'format-buffer-shot)
 
 ;; cucumber
-(require 'feature-mode)
-(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
-(setq feature-step-search-path "features/steps/**")
+;(require 'feature-mode)
+;(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
+;(setq feature-step-search-path "features/steps/**")
 
 ;; ebuild-run-mode
 (eval-after-load 'ebuild-mode `(setq ebuild-log-buffer-mode 'ebuild-run-mode))
@@ -203,30 +203,31 @@
   (find-file . cns-auto-enable))
 
 ;; high contrast theme
-(use-package! haki-theme
-  :demand t
-  ;;:custom-face
-  ;;(haki-region ((t (:background "#2e8b57" :foreground "#ffffff"))))
-  ;;(haki-highlight ((t (:background "#fafad2" :foreground "#000000"))))
-  :config
-  ;;(setq
-  ;; ;; If you skip setting this, it will use 'default' font.
-  ;; haki-heading-font "Comic Mono"
-  ;; haki-sans-font "Iosevka Comfy Motion"
-  ;; haki-title-font "Impress BT"
-  ;; haki-link-font "VictorMono Nerd Font" ;; or Maple Mono looks good
-  ;; haki-code-font "Maple Mono") ;; inline code/verbatim (org,markdown..)
-
-  ;; For meow/evil users (change border of mode-line according to modal states)
-  (add-hook 'post-command-hook #'haki-modal-mode-line)
-
-  (load-theme 'haki t))
+;(use-package! haki-theme
+;  :demand t
+;  ;;:custom-face
+;  ;;(haki-region ((t (:background "#2e8b57" :foreground "#ffffff"))))
+;  ;;(haki-highlight ((t (:background "#fafad2" :foreground "#000000"))))
+;  :config
+;  ;;(setq
+;  ;; ;; If you skip setting this, it will use 'default' font.
+;  ;; haki-heading-font "Comic Mono"
+;  ;; haki-sans-font "Iosevka Comfy Motion"
+;  ;; haki-title-font "Impress BT"
+;  ;; haki-link-font "VictorMono Nerd Font" ;; or Maple Mono looks good
+;  ;; haki-code-font "Maple Mono") ;; inline code/verbatim (org,markdown..)
+;
+;  ;; For meow/evil users (change border of mode-line according to modal states)
+;  (add-hook 'post-command-hook #'haki-modal-mode-line)
+;
+;  (load-theme 'haki t))
 
 ;; gptel
 (use-package! gptel
   :config
   ;; OpenRouter offers an OpenAI compatible API
   (setq!
+   gptel-model "anthropic/claude-3.5-sonnet:beta"
    gptel-backend
    (gptel-make-openai "OpenRouter"
      :host "openrouter.ai"
@@ -242,3 +243,36 @@
                "openai/gpt-4o"
                "google/gemini-pro-1.5"
                "microsoft/wizardlm-2-8x22b"))))
+
+; https://github.com/blahgeek/emacs-lsp-booster
+(setenv "LSP_USE_PLISTS" "true")
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
+
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+            (setcar orig-result command-from-exec-path))
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
