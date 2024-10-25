@@ -71,3 +71,7 @@
            :files ("*.el" "cnws" "cnws.exe" "cppjieba/dict")))
 ;;(package! haki-theme)
 (package! gptel)
+(package! capnp-mode :recipe
+         (:host github
+          :repo "capnproto/capnproto"
+          :files ("highlighting/emacs/*.el")))

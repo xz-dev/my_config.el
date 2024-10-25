@@ -202,6 +202,10 @@
   :hook
   (find-file . cns-auto-enable))
 
+;; capnp https://github.com/capnproto/capnproto/tree/master/highlighting/emacs
+(require 'capnp-mode)
+(add-to-list 'auto-mode-alist '("\.capnp$" . capnp-mode))
+
 ;; high contrast theme
 ;(use-package! haki-theme
 ;  :demand t
