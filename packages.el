@@ -60,7 +60,7 @@
 ;(package! tree-sitter)
 ;(package! tree-sitter-langs)
 (package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 ;(package! feature-mode)
 (package! dirvish)
 (package! cns
@@ -71,7 +71,11 @@
            :files ("*.el" "cnws" "cnws.exe" "cppjieba/dict")))
 ;;(package! haki-theme)
 (package! gptel)
-(package! capnp-mode :recipe
-         (:host github
-          :repo "capnproto/capnproto"
-          :files ("highlighting/emacs/*.el")))
+(package! capnp-mode
+  :recipe (:host github :repo "capnproto/capnproto"
+  :files ("highlighting/emacs/*.el")))
+
+(package! eat)
+(package! claude-code
+  :recipe (:host github :repo "stevemolitor/claude-code.el"
+  :files ("*.el")))

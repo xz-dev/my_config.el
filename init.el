@@ -34,8 +34,9 @@
        doom-quit           ; DOOM quit-message prompts when you quit Emacs
        (emoji              ; 🙂
         +unicode
-        +ascii
-        +github)
+        ;;ascii
+        ;;github
+        )
        hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
@@ -189,7 +190,7 @@
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
-       yaml                ; JSON, but readable
+       (yaml +lsp)         ; JSON, but readable
        ;;zig               ; C, but simpler
 
        :email

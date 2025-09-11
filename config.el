@@ -186,21 +186,21 @@
   :load-path "/usr/share/emacs/site-lisp")
 
 ;; 结巴分词
-(use-package! cns
-  :commands (cns-mode global-cns-mode cns-auto-enable)
-  :config
-  (defvar cns-packages-path (expand-file-name "cns" (expand-file-name straight-build-dir (expand-file-name "straight" straight-base-dir))))
-  (setq cns-prog (if (file-executable-p (expand-file-name "cnws" cns-packages-path))
-                     (expand-file-name "cnws" cns-packages-path)
-                   (expand-file-name "cnws.exe" cns-packages-path))
-        cns-dict-directory (expand-file-name "dict" cns-packages-path))
-  (cond
-   ((eq system-type 'windows-nt)
-    (use-package! site-gentoo
-      :load-path "/usr/share/emacs/site-lisp")
-    (setq cns-cmdproxy-shell-path "wsl.exe bash")))
-  :hook
-  (find-file . cns-auto-enable))
+;(use-package! cns
+;  :commands (cns-mode global-cns-mode cns-auto-enable)
+;  :config
+;  (defvar cns-packages-path (expand-file-name "cns" (expand-file-name straight-build-dir (expand-file-name "straight" straight-base-dir))))
+;  (setq cns-prog (if (file-executable-p (expand-file-name "cnws" cns-packages-path))
+;                     (expand-file-name "cnws" cns-packages-path)
+;                   (expand-file-name "cnws.exe" cns-packages-path))
+;        cns-dict-directory (expand-file-name "dict" cns-packages-path))
+;  (cond
+;   ((eq system-type 'windows-nt)
+;    (use-package! site-gentoo
+;      :load-path "/usr/share/emacs/site-lisp")
+;    (setq cns-cmdproxy-shell-path "wsl.exe bash")))
+;  :hook
+;  (find-file . cns-auto-enable))
 
 ;; capnp https://github.com/capnproto/capnproto/tree/master/highlighting/emacs
 (require 'capnp-mode)
@@ -231,22 +231,18 @@
   :config
   ;; OpenRouter offers an OpenAI compatible API
   (setq!
-   gptel-model "anthropic/claude-3.5-sonnet:beta"
+   gptel-model "deepseek/deepseek-r1"
    gptel-backend
    (gptel-make-openai "OpenRouter"
      :host "openrouter.ai"
      :endpoint "/api/v1/chat/completions"
      :stream t
      :key #'gptel-api-key
-     :models '("google/gemma-2-9b-it:free"
-               "anthropic/claude-3.5-sonnet"
+     :models '("deepseek/deepseek-r1"
+               "openai/o3-mini-high"
+               "deepseek/deepseek-chat:free"
                "anthropic/claude-3.5-sonnet:beta"
-               "anthropic/claude-3-haiku"
-               "meta-llama/llama-3-70b-instruct"
-               "gryphe/mythomax-l2-13b"
-               "openai/gpt-4o"
-               "google/gemini-pro-1.5"
-               "microsoft/wizardlm-2-8x22b"))))
+               "openai/gpt-4o-2024-08-06"))))
 
 ; https://github.com/blahgeek/emacs-lsp-booster
 (setenv "LSP_USE_PLISTS" "true")
@@ -280,3 +276,16 @@
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+
+(use-package! claude-code
+  :bind-keymap
+  ("C-c c" . claude-code-command-map) ;; or your preferred key
+  ;; Optionally define a repeat map so that "M" will cycle thru Claude auto-accept/plan/confirm modes after invoking claude-code-cycle-mode / C-c M.
+  :bind
+  (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode))
+  :config
+  ;; optional IDE integration with Monet
+  (add-hook 'claude-code-process-environment-functions #'monet-start-server-function)
+  (monet-mode 1)
+
+  (claude-code-mode))
