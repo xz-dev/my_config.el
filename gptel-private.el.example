@@ -7,7 +7,7 @@
 ;; machine llm.example.com login apikey password YOUR_API_KEY
 ;; machine 127.0.0.1:8000 login apikey password YOUR_API_KEY
 
-(setq! gptel-model "your-model-name"
+(setq! gptel-model 'your-model-name
        gptel-backend
        (gptel-make-openai "Private OpenAI-compatible"
          :protocol "https"              ; use "http" for local/non-TLS endpoints
@@ -15,4 +15,4 @@
          :endpoint "/v1/chat/completions"
          :stream t
          :key #'gptel-api-key
-         :models '("your-model-name")))
+         :models '(your-model-name)))

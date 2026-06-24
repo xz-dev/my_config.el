@@ -23,6 +23,35 @@ Notable packages/configured integrations include:
 - `capnp-mode`
 - `eat`
 
+## Dependencies
+
+This section only lists direct system assets assumed by this config itself. Doom Emacs modules and third-party package/tool requirements are intentionally not duplicated here; refer to their own documentation.
+
+On Arch Linux:
+
+```sh
+sudo pacman -S --needed \
+  ttf-iosevka-nerd \
+  ttf-nerd-fonts-symbols-mono \
+  ttf-lxgw-wenkai-mono
+fc-cache -fv
+```
+
+If you prefer installing the full Nerd Fonts collection:
+
+```sh
+sudo pacman -S --needed \
+  nerd-fonts \
+  ttf-lxgw-wenkai-mono
+fc-cache -fv
+```
+
+Why these are listed here:
+
+- `Iosevka Nerd Font Mono` is used as `doom-font` in `config.el`.
+- `LXGW WenKai Mono` is used for CJK fontsets in `config.el`.
+- `Symbols Nerd Font Mono` is used by Doom/`nerd-icons` UI icons.
+
 ## Installation
 
 Install Doom Emacs first:
