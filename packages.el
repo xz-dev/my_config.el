@@ -76,6 +76,3 @@
   :files ("highlighting/emacs/*.el")))
 
 (package! eat)
-(package! claude-code
-  :recipe (:host github :repo "stevemolitor/claude-code.el"
-  :files ("*.el")))

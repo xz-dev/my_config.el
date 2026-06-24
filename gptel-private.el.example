@@ -1,0 +1,18 @@
+;;; gptel-private.el.example -*- lexical-binding: t; -*-
+;; Copy this file to gptel-private.el and edit it locally.
+;; Do not commit gptel-private.el; it may contain private endpoint metadata.
+;;
+;; Store the API key in ~/.authinfo or ~/.authinfo.gpg with a machine matching
+;; the :host below, for example:
+;; machine llm.example.com login apikey password YOUR_API_KEY
+;; machine 127.0.0.1:8000 login apikey password YOUR_API_KEY
+
+(setq! gptel-model "your-model-name"
+       gptel-backend
+       (gptel-make-openai "Private OpenAI-compatible"
+         :protocol "https"              ; use "http" for local/non-TLS endpoints
+         :host "your-host.example.com"  ; include port if needed, e.g. "127.0.0.1:8000"
+         :endpoint "/v1/chat/completions"
+         :stream t
+         :key #'gptel-api-key
+         :models '("your-model-name")))

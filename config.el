@@ -229,20 +229,13 @@
 ;; gptel
 (use-package! gptel
   :config
-  ;; OpenRouter offers an OpenAI compatible API
-  (setq!
-   gptel-model "deepseek/deepseek-r1"
-   gptel-backend
-   (gptel-make-openai "OpenRouter"
-     :host "openrouter.ai"
-     :endpoint "/api/v1/chat/completions"
-     :stream t
-     :key #'gptel-api-key
-     :models '("deepseek/deepseek-r1"
-               "openai/o3-mini-high"
-               "deepseek/deepseek-chat:free"
-               "anthropic/claude-3.5-sonnet:beta"
-               "openai/gpt-4o-2024-08-06"))))
+  ;; Keep private LLM endpoints/models out of Git.  Put your real backend in
+  ;; gptel-private.el; that file is ignored by .gitignore.
+  (setq! gptel-api-key #'gptel-api-key-from-auth-source)
+
+  (let ((gptel-private-config (expand-file-name "gptel-private.el" doom-user-dir)))
+    (when (file-readable-p gptel-private-config)
+      (load gptel-private-config nil t))))
 
 ; https://github.com/blahgeek/emacs-lsp-booster
 (setenv "LSP_USE_PLISTS" "true")
@@ -277,15 +270,3 @@
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
-(use-package! claude-code
-  :bind-keymap
-  ("C-c c" . claude-code-command-map) ;; or your preferred key
-  ;; Optionally define a repeat map so that "M" will cycle thru Claude auto-accept/plan/confirm modes after invoking claude-code-cycle-mode / C-c M.
-  :bind
-  (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode))
-  :config
-  ;; optional IDE integration with Monet
-  (add-hook 'claude-code-process-environment-functions #'monet-start-server-function)
-  (monet-mode 1)
-
-  (claude-code-mode))
